@@ -1,5 +1,3 @@
-__author__ = 'sam_byers'
-
 from xml.dom import minidom
 import argparse
 import os
