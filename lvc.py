@@ -2,6 +2,12 @@ from xml.dom import minidom
 import argparse
 import os
 
+'''
+TODO:   -detect node types, instead of just dodging Multiploint Connection-1
+        -test with and adapter to managed and non-managed switches instead of Multipoint Connection
+        -clean up how directories are handled
+        -validate data in the args
+'''
 def sanitize_extensions(dom):
     '''
     This function removes extensions we don't need. We're going to add all of the ones we need later.
