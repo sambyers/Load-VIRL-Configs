@@ -43,18 +43,23 @@ def main():
     new_virl_file = args.new_virl_file
 
     dom = minidom.parse(virl_file)
+    print 'Reading VIRL file %s.' % (virl_file)
+
     sanitize_extensions(dom)
+    print 'Sanitizing extensions.'
 
     nodes = dom.getElementsByTagName('node')
-
+    print 'Extracting nodes from %s' % (virl_file)
     for node in nodes:
         if node.attributes._attrs[u'name'].value not in 'Multipoint Connection-1':
             node_name = node.attributes._attrs[u'name'].value
+            print 'Processing node %s.' % (node_name)
             for file in os.listdir(configs_path):
                 f = open(configs_path + file, 'r')
                 config = f.read()
                 f.close()
                 if file == node_name+'.txt':
+                    print 'Merging %s into %s.' % (file,new_virl_file)
                     entry_config = dom.createElement('entry')
                     entry_anetkit = dom.createElement('entry')
                     entry_config.setAttribute('key', 'config')
@@ -70,11 +75,13 @@ def main():
                     extensions.appendChild(entry_anetkit)
                     node.appendChild(extensions)
 
+    print 'Changing the order of the XML interface nodes in the VIRL file.'
     replace_interface_xml_node(dom)
-
+    print 'Writing out %s.' % (new_virl_file)
     ofile = open(new_virl_file, 'w')
     dom.writexml(ofile, encoding='UTF-8')
     ofile.close()
+    print 'Complete.'
 
 if __name__ == '__main__':
     main()
