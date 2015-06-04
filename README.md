@@ -1,7 +1,9 @@
 # Load-VIRL-Configs
-Makes a VIRL XML file from configuration files.
+Makes a VIRL XML file from an existing VIRL file and configuration files.
 
 This script works on Python 2.7.
+
+You want a VIRL file from the VMMaestro designer. Make configuration files with the exact same name as the nodes in your topology (ex. R3.txt). Point the script at the starter VIRL topology file, at the directory with your configs, and tell it where you want the merged file to be outputted.
 
 usage: lvc.py [-h] virl_file configs_path new_virl_file
 
