@@ -1,12 +1,14 @@
 from xml.dom import minidom
 import argparse
 import os
+import sys
 
 '''
 TODO:   -detect node types, instead of just dodging Multiploint Connection-1
         -test with and adapter to managed and non-managed switches instead of Multipoint Connection
         -clean up how directories are handled
         -validate data in the args
+        -fix weird null values bug w/ some config's merged into the virl file (probably encoding issue)
 '''
 def sanitize_extensions(dom):
     '''
@@ -34,6 +36,13 @@ def replace_interface_xml_node(dom):
             interface.setAttribute('id', '0')
             interface.setAttribute('name', 'GigabitEthernet0/1')
             node.appendChild(interface)
+
+def make_unicode(input):
+    if type(input) != unicode:
+        input = input.decode('utf-8', 'ignore')
+        return input
+    else:
+        return input
 
 def main():
     parser = argparse.ArgumentParser(description="Process configurations and integrate them into a VIRL file.")
@@ -64,6 +73,7 @@ def main():
                 f = open(configs_path + file, 'r')
                 config = f.read()
                 f.close()
+                #config = make_unicode(config)
                 if file == node_name+'.txt':
                     print 'Merging %s into %s.' % (file,new_virl_file)
                     entry_config = dom.createElement('entry')
