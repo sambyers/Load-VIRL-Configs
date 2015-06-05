@@ -1,7 +1,6 @@
 from xml.dom import minidom
 import argparse
 import os
-import sys
 
 '''
 TODO:   -detect node types, instead of just dodging Multiploint Connection-1
